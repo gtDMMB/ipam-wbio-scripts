@@ -36,18 +36,21 @@ def Read_Sequence(inFile):
         sequence = first_line.split()[4]
         return list(sequence)
 
+#Run the compute_rna_data.sh script
 def Calculate_Sequence_Data(sequenceFile,RNAStructureDirectory,seed):
     if RNAStructureDirectory == "":
         print("No RNAStructure directory provided and new seeds tested. Now exiting")
         exit()
     os.system('bash compute_rna_data.sh {} {} {}'.format(RNAStructureDirectory,sequenceFile,seed))    
 
+#Get the sequence name from a folder/sequence_name_seq.txt string
 def Get_File_Prefix(sequenceFile):
     sequence_name = os.path.splitext(os.path.basename(sequenceFile))[0]
     if sequence_name.endswith("_seq"):
         sequence_name = sequence_name[:-4]
     return sequence_name
 
+#Load calculated data (sampling and profiling) or calculate it if the folders are not present
 def Load_All_Data(sequenceFile,RNAStructureDirectory="",
 	recalculate_sample=False,seed=1234):
     sequence_name = Get_File_Prefix(sequenceFile)
@@ -67,6 +70,7 @@ def Load_All_Data(sequenceFile,RNAStructureDirectory="",
         print("Error loading data: {}".format(e))
         print("Recalculating sequence data")
 
+        # if the first calculation failed, or something is wrong with the folder, rerun the calculation
         Calculate_Sequence_Data(sequenceFile,RNAStructureDirectory,seed)
     
     sequence = Read_Sequence("{}/output.txt".format(data_dir))
@@ -76,6 +80,7 @@ def Load_All_Data(sequenceFile,RNAStructureDirectory="",
 
     return sequence, helices, structures, profiles
     
+#save the partitioning/clustering of helix classes to a human readable file
 def Save_Partition(outFile,partition,data,structure_partition=True,sequence=[],ch_index=None):
     total_counts = [sum(data[helix_id][0] for helix_id in community) for community in partition]
     partition = [x for _,x in reversed(sorted(zip(total_counts,partition)))]

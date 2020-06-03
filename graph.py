@@ -23,6 +23,7 @@ def hc_structure_bipgraph(structures, num_structs):
     B.add_edges_from(edges)
     return B
 
+#Plots graph assuming that it is bipartite
 def plot_bipgraph(graph):
     top_nodes = set(n for n,d in graph.nodes(data='bipartite') if d==0)
     color_list = ['#aa4444','#8866aa']
@@ -54,6 +55,7 @@ def mat_to_weighted_graph(
 
     return G
 
+#plot a networkx graph and color nodes based on communities or input partitions
 def plot_graph_with_communities(
         G, #graph to plot
         filename=None,#where to save the plot image. If blank, does not save.

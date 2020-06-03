@@ -43,12 +43,14 @@ elif len(sys.argv) > 3 and os.path.isdir(sys.argv[3]):
 if rnastruct_dir == "":
     print("Warning: no RNAStructure directory was provided. This could cause a crash if new seeds or sequences are tested.")
 
+#initialize constants and lists of parameters
 num_bins=20
-independent_samples = 1
+independent_samples = 1 # if seed_dir is not specified, run independent_samples different seeds
 difference_metrics = ["none","freq","length","energy"]
 test_percentiles = [10, 20]
 
 #Defining community detection functions to be used later
+#These 3 functions are primarily wrapper functions for calling networkx code
 
 def community_gmc(G,weight_key='weight',**kwargs):
     return community.greedy_modularity_communities(G,weight=weight_key)
@@ -56,7 +58,6 @@ def community_gmc(G,weight_key='weight',**kwargs):
 def community_lpa(G,**kwargs):
    return list(community.label_propagation_communities(G))
 
-#will only find two communities (can be modified to find k communitites for a fixed k)
 def community_gn(G,weight_key='weight',**kwargs):
     def most_central_edge(G):
         centrality = betweenness(G, weight=weight_key)
@@ -65,10 +66,12 @@ def community_gn(G,weight_key='weight',**kwargs):
     girvan_results = community.girvan_newman(G,most_valuable_edge=most_central_edge)
     return next(girvan_results)
 
+#list of community detection functions for iteration
 community_functions = [(community_gmc, "gmc"),
                         (community_gn, "gn"),
                         (community_lpa,"lpa")]
 
+#Prepare list of random seeds for RNAStructure
 if seed_dir == "":
     seed_list = [x+1 for x in range(independent_samples)]
 else:

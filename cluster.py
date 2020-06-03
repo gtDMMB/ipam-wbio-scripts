@@ -5,6 +5,7 @@ import sys
 # COMPUTE CH-INDEX FOR A GIVEN METRIC
 # Note: ensemble/cluster centroid is internally stored as (multiplicity, list helix classes)
 
+#find structure which minimizes distance to the other structures
 def findCentroid(structures,helices,metric,sequence,verbose):
     sym_diff = All_Struct_Symdiff(structures,helices,metric,sequence)
 
@@ -22,6 +23,7 @@ def findCentroid(structures,helices,metric,sequence,verbose):
 
     return min_score[1]
 
+#apply the partition to the structures to find the structures in each partition
 def get_sorted_clusters(structures,partition):
     clusters = [[structures[idx] for idx in struct_list] for struct_list in partition]
     cluster_lengths = [sum(struct[0] for struct in cluster) for cluster in clusters]
@@ -31,6 +33,7 @@ def get_sorted_clusters(structures,partition):
 
     return clusters, cluster_lengths
 
+#calculate the ch index of a specific partition
 def calculate_ch_index(structures,partition,helices,sequence,verbose=False,metric="none"):
     ens_centroid = findCentroid(structures,helices,metric,sequence,verbose)
 
