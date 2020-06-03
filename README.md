@@ -10,7 +10,8 @@ performed using the Mathews Lab
 sampling component. The ensemble data is filtered and summarized using 
 [RNAProfiling](http://rnaprofiling.gatech.edu/).
 
-To run, use the ipam-fun.py script. For example
+To run, use the ipam-fun.py script. For example:
+
 ```python3 ipam-fun.py ~/tRNA/B0000234/B0000234_seq.txt ~/Desktop/RNAStructure/```
 
 It is important that the input sequences are each in a folder with the name of the 
