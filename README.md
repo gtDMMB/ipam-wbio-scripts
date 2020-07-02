@@ -41,7 +41,7 @@ provided, then the number 1 is used as a single seed.
 
 ## Data 
 
-For each sequence used in the final analysis, we provide the sequence, accepted secondary structure, 
+For each sequence used in the final analysis, we provide the sequence, 
 sampled ensemble, RNAProfiling output, visualization of the clusters, a text file containing the 
 clusters, and a file containing a  description of the clusters and experimental parameters used to 
 run the scripts.
